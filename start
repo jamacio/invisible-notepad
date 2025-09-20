@@ -1,0 +1,96 @@
+#!/bin/bash
+
+echo "🐧 Invisible Notepad - Setup and Launch"
+echo "======================================"
+
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+echo "📁 Working directory: $SCRIPT_DIR"
+echo ""
+
+# Check if Node.js and npm are available
+if ! command -v node &> /dev/null; then
+    echo "❌ Node.js is required but not installed."
+    echo "   Please install Node.js first:"
+    echo "   Ubuntu/Debian: sudo apt install nodejs npm"
+    echo "   Fedora: sudo dnf install nodejs npm"
+    echo "   Arch: sudo pacman -S nodejs npm"
+    exit 1
+fi
+
+if ! command -v npm &> /dev/null; then
+    echo "❌ npm is required but not installed."
+    echo "   Please install npm first."
+    exit 1
+fi
+
+echo "✅ Node.js: $(node --version)"
+echo "✅ npm: $(npm --version)"
+
+# Check for optional dependencies
+if ! command -v xdotool &> /dev/null; then
+    echo "⚠️  xdotool not found (recommended for better functionality)"
+    echo "   Install with: sudo apt install xdotool"
+else
+    echo "✅ xdotool: available"
+fi
+
+echo ""
+
+# Install npm dependencies if needed
+if [ ! -d "node_modules" ]; then
+    echo "📦 Installing project dependencies..."
+    npm install
+    if [ $? -ne 0 ]; then
+        echo "❌ Failed to install dependencies!"
+        exit 1
+    fi
+    echo "✅ Dependencies installed!"
+else
+    echo "✅ Dependencies already installed"
+fi
+
+echo ""
+
+# Create desktop entry
+echo "🖥️  Creating/updating desktop menu entry..."
+DESKTOP_FILE="$HOME/.local/share/applications/invisible-notepad.desktop"
+mkdir -p "$HOME/.local/share/applications"
+
+cat > "$DESKTOP_FILE" << EOF
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Invisible Notepad
+Comment=Teleprompter for presentations - invisible during screen sharing
+Exec=bash $SCRIPT_DIR/iniciar-linux.sh
+Icon=utilities-text-editor
+Terminal=false
+Categories=Office;Utility;TextEditor;
+Keywords=teleprompter;notes;presentation;invisible;screen-sharing;
+StartupNotify=true
+StartupWMClass=invisible-notepad
+EOF
+
+chmod +x "$DESKTOP_FILE"
+echo "✅ Desktop entry created/updated"
+
+echo ""
+echo "🚀 Starting Invisible Notepad..."
+echo ""
+echo "📺 HOW TO USE AS TELEPROMPTER:"
+echo "  1. Type your notes in the editor"
+echo "  2. Start your video conference (Teams, Meet, Zoom, etc.)"
+echo "  3. Share your screen"
+echo "  4. Press Ctrl+I to activate teleprompter mode"
+echo "  5. Your notes stay visible to you, invisible to others!"
+echo ""
+echo "⌨️  SHORTCUTS:"
+echo "  Ctrl+I = Teleprompter ON/OFF"
+echo "  Ctrl+Alt+H = Hide/show window"
+echo ""
+
+# Launch the application
+npm start

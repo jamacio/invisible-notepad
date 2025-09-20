@@ -1,11 +1,4 @@
-# 🐧 Inv## Features
-
-- 📺 **Teleprompter Mode**: Invisible during screen capture on Teams, Meet, Discord, Zoom
-- 🐧 **Linux Native**: Optimized for X11 environments
-- ⌨️ **Simple Shortcuts**: Ctrl+I to toggle teleprompter mode
-- 💾 **Auto-Save**: Notes saved automatically
-- 🛡️ **X11 Protection**: Uses native properties for capture bypass
-- 🎯 **Content Protection**: Electron-level screen capture blockingtepad - Linux Teleprompter
+# 🐧 Invisible Notepad - Linux Teleprompter
 
 A teleprompter app designed for screen sharing that stays visible to you but invisible to your audience on Linux.
 
@@ -22,45 +15,64 @@ Read your notes during video conferences without others seeing them. When telepr
 - 🛡️ **X11 Protection**: Uses native properties for capture bypass
 - 🎯 **Content Protection**: Electron-level screen capture blocking
 
-## Installation & Update Script
+## Installation
 
-To install or update Invisible Notepad, you can use the automated installer. The script will automatically install dependencies when run non-interactively:
+### Prerequisites
 
-### Automatic Installation (Recommended)
+Make sure you have Node.js installed:
 
 ```bash
-curl -o- https://raw.githubusercontent.com/jamacio/invisible-notepad/main/install.sh | bash
+# Ubuntu/Debian
+sudo apt install nodejs npm
+
+# Fedora
+sudo dnf install nodejs npm
+
+# Arch
+sudo pacman -S nodejs npm
 ```
 
+**Recommended (for better functionality):**
+
 ```bash
-wget -qO- https://raw.githubusercontent.com/jamacio/invisible-notepad/main/install.sh | bash
+sudo apt install xdotool
 ```
 
-**Note:** The script will automatically install dependencies (`nodejs`, `npm`, `xdotool`, `x11-utils`, `wmctrl`) when executed this way.
+### Install and Run
 
-### Manual Install
-
-If you prefer to install dependencies manually first:
+1. **Clone the repository:**
 
 ```bash
-# Install dependencies
-sudo apt update
-sudo apt install nodejs npm xdotool x11-utils wmctrl
-
-# Clone and install
 git clone https://github.com/jamacio/invisible-notepad.git
 cd invisible-notepad
-npm install
-npm start
 ```
 
-### Local Install (Interactive)
+2. **Run the setup script:**
 
 ```bash
-# Download and run interactively
-wget https://raw.githubusercontent.com/jamacio/invisible-notepad/main/install.sh
-chmod +x install.sh
-./install.sh
+./start
+```
+
+The script will:
+
+- Install npm dependencies
+- Create a desktop menu entry
+- Launch the application immediately
+
+### Alternative ways to run
+
+```bash
+# Using the start script
+./start
+
+# Direct with npm
+npm start
+
+# Using launcher script
+./iniciar-linux.sh
+
+# From applications menu
+# Search for "Invisible Notepad" in your app launcher
 ```
 
 ## Usage
@@ -103,24 +115,15 @@ npm run build  # Generates AppImage
 
 ## Uninstall
 
-### Automatic uninstall:
-
-```bash
-chmod +x uninstall.sh
-./uninstall.sh
-```
-
-### Manual uninstall:
-
 ```bash
 # Remove application directory
 rm -rf ~/invisible-notepad
 
-# Remove desktop entry (if installed)
+# Remove desktop entry
 rm -f ~/.local/share/applications/invisible-notepad.desktop
 
-# Remove auto-saved data
-rm -f ~/.config/invisible-notepad/*
+# Remove auto-saved data (optional)
+rm -rf ~/.config/invisible-notepad/
 ```
 
 ## License
