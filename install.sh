@@ -11,6 +11,52 @@ fi
 
 echo "✅ Debian/Ubuntu system detected"
 
+# Detect if script is being run from curl | bash (remote install)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REMOTE_INSTALL=false
+
+if [[ ! -f "$SCRIPT_DIR/package.json" ]]; then
+    REMOTE_INSTALL=true
+    echo "🌐 Remote installation detected - downloading project..."
+    
+    # Check if git is installed
+    if ! command -v git &> /dev/null; then
+        echo "🔧 Installing git..."
+        sudo apt update
+        sudo apt install -y git
+    fi
+    
+    # Create installation directory
+    INSTALL_DIR="$HOME/invisible-notepad"
+    
+    if [ -d "$INSTALL_DIR" ]; then
+        echo "📁 Found existing installation at $INSTALL_DIR"
+        read -p "🤔 Remove existing installation and reinstall? (y/N): " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[YySs]$ ]]; then
+            rm -rf "$INSTALL_DIR"
+        else
+            echo "❌ Installation cancelled."
+            exit 1
+        fi
+    fi
+    
+    echo "📥 Cloning repository..."
+    git clone https://github.com/jamacio/invisible-notepad.git "$INSTALL_DIR"
+    
+    if [ $? -ne 0 ]; then
+        echo "❌ Failed to clone repository"
+        exit 1
+    fi
+    
+    # Change to the cloned directory
+    SCRIPT_DIR="$INSTALL_DIR"
+    cd "$SCRIPT_DIR"
+    echo "✅ Project downloaded to: $INSTALL_DIR"
+else
+    echo "📁 Local installation detected"
+fi
+
 install_dependencies() {
     echo "📦 Installing system dependencies..."
     
@@ -74,8 +120,7 @@ echo "✅ xdotool: $(xdotool --version 2>/dev/null | head -1 || echo 'installed'
 
 echo ""
 echo "📦 Installing project dependencies..."
-# Get the directory where this script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Ensure we're in the correct directory
 cd "$SCRIPT_DIR"
 npm install
 
@@ -120,7 +165,12 @@ if [ $? -eq 0 ]; then
     echo "🎉 INSTALLATION COMPLETED SUCCESSFULLY!"
     echo "=================================================="
     echo ""
-    echo "📱 APPLICATION BUILT:"
+    if [ "$REMOTE_INSTALL" = true ]; then
+        echo "� PROJECT INSTALLED TO:"
+        echo "   Location: $SCRIPT_DIR"
+        echo ""
+    fi
+    echo "�📱 APPLICATION BUILT:"
     if [ -d "$SCRIPT_DIR/dist" ]; then
         echo "   Location: $SCRIPT_DIR/dist/"
         ls -la "$SCRIPT_DIR/dist"/*.AppImage 2>/dev/null || echo "   AppImage in: dist/"
@@ -132,9 +182,15 @@ if [ $? -eq 0 ]; then
     echo ""
     echo "🚀 WAYS TO RUN:"
     echo "   1. Menu:          Click on app icon in menu"
-    echo "   2. NPM:           npm start"
-    echo "   3. Script:        bash iniciar-linux.sh"
-    echo "   4. AppImage:      ./dist/Invisible-Notepad-*.AppImage"
+    if [ "$REMOTE_INSTALL" = true ]; then
+        echo "   2. NPM:           cd $SCRIPT_DIR && npm start"
+        echo "   3. Script:        cd $SCRIPT_DIR && bash iniciar-linux.sh"
+        echo "   4. AppImage:      $SCRIPT_DIR/dist/Invisible-Notepad-*.AppImage"
+    else
+        echo "   2. NPM:           npm start"
+        echo "   3. Script:        bash iniciar-linux.sh"
+        echo "   4. AppImage:      ./dist/Invisible-Notepad-*.AppImage"
+    fi
     echo ""
     echo "⌨️  MAIN SHORTCUTS:"
     echo "   Ctrl+I = Activate teleprompter mode"
@@ -151,13 +207,23 @@ if [ $? -eq 0 ]; then
 else
     echo "⚠️  AppImage build failed, but application is functional:"
     echo ""
+    if [ "$REMOTE_INSTALL" = true ]; then
+        echo "📁 PROJECT INSTALLED TO:"
+        echo "   Location: $SCRIPT_DIR"
+        echo ""
+    fi
     echo "🎯 DESKTOP MENU:"
     echo "   Find 'Invisible Notepad' in your applications menu"
     echo ""
     echo "🚀 RUN WITH:"
     echo "   1. Menu:          Click on app icon in menu"
-    echo "   2. NPM:           npm start"
-    echo "   3. Script:        bash iniciar-linux.sh"
+    if [ "$REMOTE_INSTALL" = true ]; then
+        echo "   2. NPM:           cd $SCRIPT_DIR && npm start"
+        echo "   3. Script:        cd $SCRIPT_DIR && bash iniciar-linux.sh"
+    else
+        echo "   2. NPM:           npm start"
+        echo "   3. Script:        bash iniciar-linux.sh"
+    fi
     echo ""
 fi
 
