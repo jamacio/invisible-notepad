@@ -1,10 +1,17 @@
-# 🐧 Invisible Notepad - Linux Teleprompter
+# 🐧 Inv## Features
+
+- 📺 **Teleprompter Mode**: Invisible during screen capture on Teams, Meet, Discord, Zoom
+- 🐧 **Linux Native**: Optimized for X11 environments
+- ⌨️ **Simple Shortcuts**: Ctrl+I to toggle teleprompter mode
+- 💾 **Auto-Save**: Notes saved automatically
+- 🛡️ **X11 Protection**: Uses native properties for capture bypass
+- 🎯 **Content Protection**: Electron-level screen capture blockingtepad - Linux Teleprompter
 
 A teleprompter app designed for screen sharing that stays visible to you but invisible to your audience on Linux.
 
 ## What it does
 
-Read your notes during video conferences without others seeing them. When teleprompter mode is activated, your notes appear at **40% opacity** to you but remain **completely invisible** to viewers during screen sharing due to advanced capture protection.
+Read your notes during video conferences without others seeing them. When teleprompter mode is activated, your notes remain **visible to you** but become **completely invisible** to viewers during screen sharing due to advanced capture protection.
 
 ## Features
 
@@ -18,7 +25,9 @@ Read your notes during video conferences without others seeing them. When telepr
 
 ## Installation & Update Script
 
-To install or update Invisible Notepad, you should run the install script. To do that, you may either download and run the script manually, or use the following cURL or Wget command:
+To install or update Invisible Notepad, you can use the automated installer. The script will automatically install dependencies when run non-interactively:
+
+### Automatic Installation (Recommended)
 
 ```bash
 curl -o- https://raw.githubusercontent.com/jamacio/invisible-notepad/main/install.sh | bash
@@ -28,11 +37,16 @@ curl -o- https://raw.githubusercontent.com/jamacio/invisible-notepad/main/instal
 wget -qO- https://raw.githubusercontent.com/jamacio/invisible-notepad/main/install.sh | bash
 ```
 
+**Note:** The script will automatically install dependencies (`nodejs`, `npm`, `xdotool`, `x11-utils`, `wmctrl`) when executed this way.
+
 ### Manual Install
 
+If you prefer to install dependencies manually first:
+
 ```bash
-# Dependencies
-sudo apt install nodejs npm xdotool
+# Install dependencies
+sudo apt update
+sudo apt install nodejs npm xdotool x11-utils wmctrl
 
 # Clone and install
 git clone https://github.com/jamacio/invisible-notepad.git
@@ -41,9 +55,11 @@ npm install
 npm start
 ```
 
-### Quick Install (Local)
+### Local Install (Interactive)
 
 ```bash
+# Download and run interactively
+wget https://raw.githubusercontent.com/jamacio/invisible-notepad/main/install.sh
 chmod +x install.sh
 ./install.sh
 ```
@@ -53,10 +69,10 @@ chmod +x install.sh
 1. **Write your notes** in the editor
 2. **Start video conference** (Teams, Meet, etc.)
 3. **Press Ctrl+I** to activate teleprompter mode
-   - App automatically becomes 40% transparent to you
-   - Completely invisible to screen capture
+   - App becomes invisible to screen capture
+   - Remains visible to you
 4. **Share screen** - your notes won't appear to others
-5. **Read freely** - you see them at fixed transparency, others see nothing!
+5. **Read freely** - you see them, others see nothing!
 
 ## Controls
 
@@ -70,10 +86,9 @@ chmod +x install.sh
 ## How it works
 
 - **Content Protection**: `setContentProtection(true)` blocks screen capture at Electron level
-- **Fixed Transparency**: Window opacity automatically set to 40% during teleprompter mode (visible to you, invisible to capture)
 - **X11 Properties**: `_NET_WM_BYPASS_COMPOSITOR` for capture bypass
 - **Window State**: `_NET_WM_STATE` optimized to avoid detection by screen sharing software
-- **Enhanced Contrast**: Text styling optimized for readability at reduced opacity
+- **Capture Blocking**: Advanced techniques to remain invisible during screen recording
 
 ## Requirements
 

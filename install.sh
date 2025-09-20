@@ -47,15 +47,23 @@ fi
 
 if [ "$need_install" = true ]; then
     echo ""
-    read -p "🤔 Install dependencies automatically? (y/N): " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[YySs]$ ]]; then
-        install_dependencies
+    # Check if running via pipe (curl | bash) or interactive terminal
+    if [ -t 0 ]; then
+        # Interactive mode
+        read -p "🤔 Install dependencies automatically? (y/N): " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[YySs]$ ]]; then
+            install_dependencies
+        else
+            echo "❌ Installation cancelled. Install dependencies manually:"
+            echo "   sudo apt update"
+            echo "   sudo apt install nodejs npm xdotool x11-utils wmctrl"
+            exit 1
+        fi
     else
-        echo "❌ Installation cancelled. Install dependencies manually:"
-        echo "   sudo apt update"
-        echo "   sudo apt install nodejs npm xdotool x11-utils wmctrl"
-        exit 1
+        # Non-interactive mode (curl | bash)
+        echo "🔄 Running in non-interactive mode, installing dependencies automatically..."
+        install_dependencies
     fi
 fi
 
