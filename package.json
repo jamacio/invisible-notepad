@@ -1,0 +1,40 @@
+{
+  "name": "invisible-notepad",
+  "version": "1.0.0",
+  "description": "Um teleprompter invisível para apresentações online no Linux",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder --linux",
+    "pack": "electron-builder --dir"
+  },
+  "keywords": [
+    "teleprompter",
+    "linux",
+    "screen-sharing",
+    "invisible",
+    "presentation"
+  ],
+  "author": "Jamacio",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "build": {
+    "appId": "com.jamacio.invisible-notepad",
+    "productName": "Invisible Notepad",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "linux": {
+      "target": "AppImage",
+      "category": "Utility"
+    }
+  }
+}

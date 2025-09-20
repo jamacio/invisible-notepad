@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invisible Notepad</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="app">
+        <div id="titlebar">
+            <div id="titlebar-drag-region">
+                <div id="window-title">Invisible Notepad</div>
+            </div>
+            <div id="titlebar-controls">
+                <button id="invisible-btn" class="control-btn" title="Teleprompter Mode (Ctrl+I)">📺</button>
+                <button id="minimize-btn" class="control-btn" title="Minimize">➖</button>
+                <button id="close-btn" class="control-btn close" title="Close">✖️</button>
+            </div>
+        </div>
+
+        <div id="statusbar">
+            <div id="status-left">
+                <span id="file-status">New document</span>
+                <span id="modified-indicator" class="hidden">●</span>
+            </div>
+            <div id="status-right">
+                <span id="transparency-status">Normal</span>
+            </div>
+        </div>
+
+        <div id="editor-container">
+            <textarea id="editor" placeholder="📺 TELEPROMPTER MODE:
+• Press Ctrl+I to activate teleprompter mode
+• Auto transparency: visible to you, invisible to others
+• Your notes become translucent automatically
+
+📝 TIPS:
+• Use short key points
+• Position window near camera
+• Test before presentation
+
+Example usage:
+→ Introduction: Present project X
+→ Demo: Show functionality Y  
+→ Q&A: Answer questions about Z
+→ Conclusion: Next steps" spellcheck="false" wrap="soft">
+</textarea>
+        </div>
+
+        <div id="context-menu" class="hidden">
+            <div class="context-item" data-action="cut">Cut</div>
+            <div class="context-item" data-action="copy">Copy</div>
+            <div class="context-item" data-action="paste">Paste</div>
+            <div class="separator"></div>
+            <div class="context-item" data-action="selectall">Select All</div>
+            <div class="separator"></div>
+            <div class="context-item" data-action="invisible">Teleprompter Mode</div>
+        </div>
+
+        <div id="invisible-indicator" class="hidden">
+            <div class="indicator-content">
+                <span>🕵️ TELEPROMPTER MODE ACTIVE</span>
+                <small>Invisible to screen sharing - Visible to you</small>
+                <small>Press Ctrl+I to exit</small>
+            </div>
+        </div>
+    </div>
+
+    <script src="renderer.js"></script>
+    <script src="debug.js"></script>
+</body>
+
+</html>
