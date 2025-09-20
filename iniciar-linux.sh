@@ -63,4 +63,50 @@ echo "  Ctrl+I = Teleprompter ON/OFF"
 echo "  Ctrl+Alt+H = Hide/show window"
 echo ""
 
-npm start
+# Cria um arquivo de log temporário
+LOG_FILE="/tmp/invisible-notepad.log"
+
+echo "✅ Starting app in background..."
+echo "📋 Log file: $LOG_FILE"
+
+# Inicia o aplicativo em background usando nohup
+# Redireciona saídas para o arquivo de log
+nohup npm start > "$LOG_FILE" 2>&1 &
+
+# Obtém o PID do processo
+APP_PID=$!
+
+echo "📝 App started with PID: $APP_PID"
+echo ""
+
+# Aguarda um momento para o app inicializar
+sleep 3
+
+# Verifica se o processo ainda está rodando
+if ps -p "$APP_PID" > /dev/null 2>&1; then
+    echo "✅ App is running successfully!"
+    echo "🔐 Terminal will close automatically..."
+    echo ""
+    echo "To stop the app later, run:"
+    echo "pkill -f 'npm start'"
+    sleep 2
+    
+    # Força o fechamento do terminal atual
+    if [ -n "$DISPLAY" ]; then
+        # Se estivermos em uma sessão gráfica, tenta fechar a janela do terminal
+        if command -v xdotool &> /dev/null; then
+            TERMINAL_PID=$(xdotool getwindowfocus getwindowpid)
+            kill "$TERMINAL_PID" 2>/dev/null || exit 0
+        else
+            # Alternativa: sair do script fazendo com que o terminal se feche
+            exit 0
+        fi
+    else
+        # Em terminal não gráfico, simplesmente sai
+        exit 0
+    fi
+else
+    echo "❌ App failed to start. Check the log file:"
+    echo "cat $LOG_FILE"
+    exit 1
+fi

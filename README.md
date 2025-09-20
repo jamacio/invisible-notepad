@@ -59,22 +59,63 @@ The script will:
 
 - Install npm dependencies
 - Create a desktop menu entry
-- Launch the application immediately
+- Launch the application in background (continues running even if terminal is closed)
 
 ### Alternative ways to run
 
 ```bash
-# Using the start script
+# Using the start script (setup + background execution)
 ./start
 
-# Direct with npm
+# Direct with npm (keeps terminal occupied)
 npm start
 
-# Using launcher script
+# Using launcher script (runs in background, closes terminal)
 ./iniciar-linux.sh
 
 # From applications menu
 # Search for "Invisible Notepad" in your app launcher
+```
+
+**Note:** Both `./start` and `./iniciar-linux.sh` run the app in background, but:
+
+- `./start` keeps the terminal open and shows setup information
+- `./iniciar-linux.sh` closes the terminal automatically after startup
+
+### Running in Background
+
+Both main scripts run the app in background mode:
+
+**Using the setup script:**
+
+```bash
+./start
+```
+
+**Using the launcher script:**
+
+```bash
+./iniciar-linux.sh
+```
+
+**Features:**
+
+- App runs independently of terminal
+- App continues running even after terminal is closed
+- Log file created at `/tmp/invisible-notepad.log`
+- Shows PID for process management
+
+**To check if the app is running:**
+
+```bash
+ps aux | grep electron
+```
+
+**To stop the app:**
+
+```bash
+# Find and kill the process
+pkill -f "npm start"
 ```
 
 ## Usage
