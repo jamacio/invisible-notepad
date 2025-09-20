@@ -74,6 +74,9 @@ echo "✅ xdotool: $(xdotool --version 2>/dev/null | head -1 || echo 'installed'
 
 echo ""
 echo "📦 Installing project dependencies..."
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
 npm install
 
 if [ $? -ne 0 ]; then
@@ -94,7 +97,7 @@ Version=1.0
 Type=Application
 Name=Invisible Notepad
 Comment=Teleprompter for presentations - invisible during screen sharing
-Exec=bash $(pwd)/iniciar-linux.sh
+Exec=bash $SCRIPT_DIR/iniciar-linux.sh
 Icon=utilities-text-editor
 Terminal=false
 Categories=Office;Utility;TextEditor;
@@ -108,6 +111,8 @@ echo "✅ Desktop entry created at: $DESKTOP_FILE"
 
 echo ""
 echo "🏗️  Building executable (.AppImage)..."
+# Ensure we're in the correct directory
+cd "$SCRIPT_DIR"
 npm run build
 
 if [ $? -eq 0 ]; then
@@ -116,9 +121,9 @@ if [ $? -eq 0 ]; then
     echo "=================================================="
     echo ""
     echo "📱 APPLICATION BUILT:"
-    if [ -d "dist" ]; then
-        echo "   Location: $(pwd)/dist/"
-        ls -la dist/*.AppImage 2>/dev/null || echo "   AppImage in: dist/"
+    if [ -d "$SCRIPT_DIR/dist" ]; then
+        echo "   Location: $SCRIPT_DIR/dist/"
+        ls -la "$SCRIPT_DIR/dist"/*.AppImage 2>/dev/null || echo "   AppImage in: dist/"
     fi
     echo ""
     echo "🎯 DESKTOP MENU:"

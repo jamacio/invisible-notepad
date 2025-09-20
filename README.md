@@ -16,7 +16,6 @@ Read your notes during video conferences without others seeing them. When telepr
 ## Features
 
 - 📺 **Teleprompter Mode**: Invisible during screen capture on Teams, Meet, Discord, Zoom
-- � **Fixed Transparency**: Automatically sets to 40% opacity when active
 - 🐧 **Linux Native**: Optimized for X11 environments
 - ⌨️ **Simple Shortcuts**: Ctrl+I to toggle teleprompter mode
 - 💾 **Auto-Save**: Notes saved automatically
