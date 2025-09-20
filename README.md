@@ -40,21 +40,20 @@ sudo apt install xdotool
 
 ### Install and Run
 
-1. **Clone the repository:**
-
+1. **Clone the repository and enter the directory:**
 ```bash
 git clone https://github.com/jamacio/invisible-notepad.git
 cd invisible-notepad
 ```
 
 2. **Run the setup script:**
-
 ```bash
 ./start
 ```
 
-The script will:
+**Important:** Make sure you're inside the `invisible-notepad` directory before running `./start`
 
+The script will:
 - Install npm dependencies
 - Create a desktop menu entry
 - Launch the application immediately
@@ -124,6 +123,28 @@ rm -f ~/.local/share/applications/invisible-notepad.desktop
 
 # Remove auto-saved data (optional)
 rm -rf ~/.config/invisible-notepad/
+```
+
+## Troubleshooting
+
+### "No such file or directory" when running ./start
+
+Make sure you're in the correct directory:
+```bash
+cd invisible-notepad  # Enter the project directory first
+./start               # Then run the script
+```
+
+### Dependencies not found
+
+If you get Node.js or npm errors, install them first:
+```bash
+# Ubuntu/Debian
+sudo apt update
+sudo apt install nodejs npm
+
+# Then try again
+./start
 ```
 
 ## License
