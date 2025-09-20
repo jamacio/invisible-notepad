@@ -136,6 +136,7 @@ echo "🖥️  Creating desktop menu entry..."
 DESKTOP_FILE="$HOME/.local/share/applications/invisible-notepad.desktop"
 mkdir -p "$HOME/.local/share/applications"
 
+# Use the actual installation directory for the Exec path
 cat > "$DESKTOP_FILE" << EOF
 [Desktop Entry]
 Version=1.0
@@ -153,6 +154,7 @@ EOF
 
 chmod +x "$DESKTOP_FILE"
 echo "✅ Desktop entry created at: $DESKTOP_FILE"
+echo "   Pointing to: $SCRIPT_DIR/iniciar-linux.sh"
 
 echo ""
 echo "🏗️  Building executable (.AppImage)..."

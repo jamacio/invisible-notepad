@@ -1,6 +1,11 @@
 #!/bin/bash
 
+# Get the directory where this script is located and change to it
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
 echo "🐧 Invisible Notepad - Linux Teleprompter"
+echo "📁 Running from: $SCRIPT_DIR"
 echo ""
 echo "Checking Node.js..."
 
